@@ -6,8 +6,8 @@ from secp256k1 import add, subtract, multiply, double, g, hash160
 
 target = 'd39c4704664e1deb76c9331e637564c257d68a08'
 
-KEY_SIZE = 66
-ONES = 33
+KEY_SIZE = 30
+ONES = 16
 
 # this is the number of powers that will be calculated for point addition.
 # It will be used for parallel searches in the future.
