@@ -1,5 +1,4 @@
 import math
-import random
 
 def getDistance(numero):
     potencia_de_dois = 1
@@ -15,7 +14,8 @@ def getDistance(numero):
     return e, s
 
 def getArray(zeros, uns):
-    string = ''
+    # All keys start with 1 to define the range limit.
+    string = '1'
     array = list(string)
 
     while len(array) < (zeros + uns):

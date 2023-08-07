@@ -4,12 +4,13 @@ argumentos = sys.argv
 from utils import getArray, getStartPoints, toHex
 from secp256k1 import add, subtract, multiply, double, g, hash160
 
-target = '20d45a6a762535700ce9e0b216e31994335db8a5'
+target = 'd39c4704664e1deb76c9331e637564c257d68a08'
 
 KEY_SIZE = 66
 ONES = 33
 
 # this is the number of powers that will be calculated for point addition.
+# It will be used for parallel searches in the future.
 DISTANCE_POINTS = 100
 
 # init pows with point G
