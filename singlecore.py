@@ -1,5 +1,6 @@
 import sys
 argumentos = sys.argv
+import time
 
 from utils import getArray, getStartPoints, toHex
 from secp256k1 import add, subtract, multiply, double, g, hash160
@@ -11,7 +12,9 @@ ONES = 16
 
 # this is the number of powers that will be calculated for point addition.
 # It will be used for parallel searches in the future.
-DISTANCE_POINTS = 100
+DISTANCE_POINTS = 1000
+
+run = True
 
 # init pows with point G
 pows = [g]
@@ -26,8 +29,10 @@ for i in range(KEY_SIZE - 1):
 # get start key in array off bits
 startKey = getArray(KEY_SIZE - ONES, ONES)
 
+start_time = time.time()
+
 # search a public key that will be generate a hash160 of target
-while(True):
+while(run):
     startPoints = getStartPoints(startKey, KEY_SIZE, DISTANCE_POINTS)
 
     startPoint = multiply(g, startPoints[0])
@@ -42,10 +47,9 @@ while(True):
     if(hash == target):
         print('Found!')
         print(prefix + toHex(startPoint['x']))
+        run = False
         break
     
-    found = False
-
     for i in range(len(startPoints[1])):
         p = startPoints[1][i]
 
@@ -64,4 +68,14 @@ while(True):
         if(hash == target):
             print('Found!')
             print(prefix + toHex(startPoint['x']))
+            run = False
             break
+
+end_time = time.time()
+execution_time_seconds = end_time - start_time
+
+hours = int(execution_time_seconds // 3600)
+minutes = int((execution_time_seconds % 3600) // 60)
+seconds = int(execution_time_seconds % 60)
+
+print(f"Time: {hours} h, {minutes} m, {seconds} s")
