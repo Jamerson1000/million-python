@@ -79,11 +79,3 @@ def hash160(public_key):
     hash160 = ripemd160.digest()
     
     return binascii.hexlify(hash160).decode()
-
-def compare_points(point1, point2):
-    if point1['y'] > point2['y']:
-        return "Maior"
-    elif point1['y'] < point2['y']:
-        return "Menor"
-    else:
-        return "Igual"

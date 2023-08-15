@@ -8,10 +8,7 @@ def worker(startPoints, pows, target, stop_event):
 
     startPoint = multiply(g, startPoints[0])
 
-    if startPoint['y'] % 2 == 0:
-        prefix = "02"
-    else:
-        prefix = "03"
+    prefix = "02" if startPoint['y'] % 2 == 0 else "03"
 
     hash = hash160(prefix + toHex(startPoint['x']))
 
@@ -29,10 +26,8 @@ def worker(startPoints, pows, target, stop_event):
             startPoint = add(startPoint, pows[p[1]])
             startPoint = subtract(startPoint, g)
 
-        if startPoint['y'] % 2 == 0:
-            prefix = "02"
-        else:
-            prefix = "03"
+        prefix = "02" if startPoint['y'] % 2 == 0 else "03"
+        
         hash = hash160(prefix + toHex(startPoint['x']))
         
         if(hash == target):
@@ -47,7 +42,7 @@ def main():
 
     KEY_SIZE = 30
     ONES = 16
-    DISTANCE_POINTS = 100
+    DISTANCE_POINTS = 1000
 
     num_processes = 10
 
@@ -73,6 +68,8 @@ def main():
         for _ in range(num_processes):
             startPoints = getStartPoints(startKey, KEY_SIZE, DISTANCE_POINTS)
 
+            print(toHex(startPoints[0]))
+
             process = Process(target=worker, args=(startPoints, pows, target, stop_event))
             processes.append(process)
 
@@ -85,6 +82,11 @@ def main():
         if stop_event.is_set():
             for process in processes:
                 process.terminate()
+        
+        for process in processes:
+                process.terminate()
+
+                process = []
 
     end_time = time.time()
     execution_time_seconds = end_time - start_time
